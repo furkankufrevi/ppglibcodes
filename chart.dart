@@ -8,7 +8,7 @@ class Chart extends StatelessWidget {
   Chart(this._data);
 
   /*Building chart usins sensorvalues.
-  * This values will be used in homePage.dar to obtain plethysmograph wave.
+  * This values will be used in homePage.dart to obtain plethysmograph wave.
   * Time dependent and value.*/
   @override
   Widget build(BuildContext context) {
