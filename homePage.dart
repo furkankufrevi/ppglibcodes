@@ -30,7 +30,7 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
   double _iconScale = 1;
   int _bpm = 0; // Beats per minute set to '0'.
   int _fs =
-      30; // Sampling Frequency (fps). This option is '30' because not every camera can provide more than 30 frames per second.
+      30; //Sampling Frequency . This option is '30' because not every camera can provide more than 30 frames per second.
   int _windowLen = 30 * 6; // window length to display - 6 seconds
   CameraImage _image; // Store the last camera image
   double _avg; // Store the average value during calculation
@@ -103,8 +103,8 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
                                 padding: EdgeInsets.all(4),
                                 child: Text(
                                   _toggled
-                                      ? "Cover both the camera and the flash with your finger"
-                                      : "Camera feed will display here",
+                                      ? "Cover camera and flashlight with finger"
+                                      : "Photodetector Feed",
                                   style: TextStyle(
                                       backgroundColor: _toggled
                                           ? Colors.white
@@ -125,13 +125,18 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Estimated BPM",
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                            "Estimated HR",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            (_bpm > 30 && _bpm < 150 ? _bpm.toString() : "--"),
+                            (_bpm > 30 && _bpm < 150
+                                ? _bpm.toString()
+                                : "Waiting..."),
                             style: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.bold),
+                                fontSize: 36, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )),
@@ -279,7 +284,7 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
     //Heart rate calculations.
     //Taken sensor values
     List<SensorValue> _values;
-    //Average RGB values
+    //Average HR values
     double _avg;
     //for for loop.
     int _n;
@@ -293,15 +298,17 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
     //while button is toggled.
     while (_toggled) {
       _values = List.from(_data); // sensor values obtained as array _data
-      _avg = 0; //average heart beat rate
+      _avg = 0; //average heart rate
       _n = _values.length; //lenght of sensor values
       _m = 0;
       //loop will stay until values ended
       _values.forEach((SensorValue value) {
-        //average value
+        //average value = amplitude(value.value) / _n(lenght of values)
         _avg += value.value / _n;
+        //_m=0; if value > 0; _m = amplitude(value.value)
         if (value.value > _m) _m = value.value;
       });
+      //threshold in order to keep efficiency
       _threshold = (_m + _avg) / 2;
       _bpm = 0;
       _counter = 0;
@@ -311,6 +318,7 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
             _values[i].value > _threshold) {
           if (_previous != 0) {
             _counter++;
+            //bpm = 60*1000 / sensor value*1000 - _previous(previously obtained bpm)
             _bpm += 60 *
                 1000 /
                 (_values[i].time.millisecondsSinceEpoch - _previous);
