@@ -1,8 +1,9 @@
 //Homepage function
-import 'package:PPG/homePage.dart';
 //Flutter SDK
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'homePage.dart';
 
 //Running the app.
 void main() => runApp(MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       //Title
-      title: 'Plethysmograph',
+      title: 'Photoplethysmograph',
       //Interface theme
       theme: ThemeData(
         brightness: Brightness.light,
