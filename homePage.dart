@@ -151,7 +151,7 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
                   child: IconButton(
                     icon:
                         Icon(_toggled ? Icons.favorite : Icons.favorite_border),
-                    color: Colors.red,
+                    color: Colors.green,
                     iconSize: 128,
                     onPressed: () {
                       if (_toggled) {
@@ -200,7 +200,7 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
     _clearData();
     _initController().then((onValue) {
       Wakelock.enable();
-      _animationController?.repeat(reverse: true);
+      //_animationController?.repeat(reverse: true); --Animation stopped
       setState(() {
         _toggled = true;
       });
