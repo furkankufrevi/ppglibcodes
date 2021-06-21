@@ -335,7 +335,7 @@ class HomePageView extends State<HomePage> with SingleTickerProviderStateMixin {
       }
       await Future.delayed(Duration(
           milliseconds:
-              1000 * _windowLen ~/ _fs)); // wait for a new set of _data values
+              1000 * _windowLen ~/ _fs)); // wait for a new set of _data values/
     }
   }
 }
